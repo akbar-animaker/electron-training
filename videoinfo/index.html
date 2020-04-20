@@ -1,0 +1,27 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Video Information</h1>
+        <div>
+            <form onsubmit="triggerSubmit()">
+                <input type="file" accept="video/*" />
+                <button type="submit">On Get</button>
+            </form>
+            <h1 id='op'></h1>
+        </div>
+
+        <script>
+            const electron = require('electron');
+            const { ipcRenderer } = electron;
+            function triggerSubmit(e) {
+                e && e.preventDefault();                
+                const { path } = document.querySelector('input').files[0];
+                ipcRenderer.send('Video:Submit', path);
+            }
+
+            ipcRenderer.on('Video:MetaData', (err, data) => {
+                document.getElementById('op').innerHTML = data;
+            })
+        </script>
+    </body>
+</html>
