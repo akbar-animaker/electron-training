@@ -1,6 +1,7 @@
 const eletron = require('electron');
 const path = require('path');
-const { app, BrowserWindow, Tray } = eletron;
+const { app, BrowserWindow } = eletron;
+const TimerTray = require('./timer_tray');
 
 let mainWindow;
 let tray;
@@ -20,25 +21,5 @@ app.on('ready', () => {
 
     const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png';
     const iconPath = path.join(__dirname, `./src/assets/${iconName}`);
-    tray = new Tray(iconPath);
-
-    tray.on('click', (evt, bounds) => {
-        const { x, y } = bounds;
-        const { width, height } = mainWindow.getBounds();
-        if (mainWindow.isVisible()) {
-            mainWindow.hide();
-        } else {
-            /**
-             * This is because OSX icons displayed in top but window, icons displayed in bottom
-             */
-            const yPosition = process.platform === 'darwin' ? y : y - height;
-            mainWindow.setBounds({
-                x: x - width / 2,
-                y: yPosition,
-                width,
-                height
-            })
-            mainWindow.show();
-        }
-    })
+    tray = new TimerTray(iconPath, mainWindow);
 })
