@@ -10,7 +10,7 @@ app.on('ready', () => {
   const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png';
   const iconPath = path.join(__dirname, `../src/assets/${iconName}`);
   const startUrl = process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, 'preload.js'),
+    pathname: path.join(__dirname, '../index.html'),
     protocol: 'file:',
     slashes: true,
   });

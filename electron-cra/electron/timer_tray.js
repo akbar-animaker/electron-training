@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { Tray, ipcMain } = electron;
+const { Tray, ipcMain, Menu, app } = electron;
 
 class TimerTray extends Tray {
     constructor(iconPath, mainWindow) {
@@ -7,11 +7,20 @@ class TimerTray extends Tray {
         this.mainWindow = mainWindow;
         this.setToolTip('Timer App')
         this.on('click', this.onClick.bind(this));
+        this.on('right-click', this.onRightClick.bind(this));
         ipcMain.on('Update:Timer', this.setTrayTitle.bind(this))
     }
 
     setTrayTitle(event, title) {
         this.setTitle(title)
+    }
+
+    onRightClick(event) {
+        const menuConfig = Menu.buildFromTemplate([{
+            label: 'Quit',
+            click: () => app.quit()
+        }]);
+        this.popUpContextMenu(menuConfig)
     }
 
     onClick(event, bounds) {

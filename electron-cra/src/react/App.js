@@ -5,7 +5,6 @@ import TasksIndex from "./components/TasksIndex";
 import TasksShow from "./components/TasksShow";
 import Timer from "../utils/Timer";
 import Settings from "./components/Settings";
-import { channels } from '../shared/constants';
 const { ipcRenderer } = window;
 
 const APP_DATA = JSON.parse(localStorage.getItem("__INITIAL_STATE__"));
