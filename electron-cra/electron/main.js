@@ -1,4 +1,5 @@
 const electron = require('electron');
+const { BrowserWindow } = electron;
 const path = require('path');
 const { app } = electron;
 const url = require('url');
@@ -14,8 +15,22 @@ app.on('ready', () => {
     protocol: 'file:',
     slashes: true,
   });
+  const main_window = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+      backgroundThrottling: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+    width: 300,
+    height: 500,
+    frame: false,
+    resizable: false,
+    show: false
+  });
+  main_window.loadURL(startUrl);
+  // const main_window = new MainWindow(startUrl);
   new TimerTray(
-      iconPath,
-      new MainWindow(startUrl)
+    iconPath,
+    main_window
   );
 })

@@ -5,6 +5,7 @@ import TasksIndex from "./components/TasksIndex";
 import TasksShow from "./components/TasksShow";
 import Timer from "../utils/Timer";
 import Settings from "./components/Settings";
+import { GoogleLogin } from 'react-google-login'
 const { ipcRenderer } = window;
 
 const APP_DATA = JSON.parse(localStorage.getItem("__INITIAL_STATE__"));
@@ -172,6 +173,23 @@ class App extends Component {
     return (
       <div>
         <Header />
+        <GoogleLogin
+          // clientId={'617246850621-95f9qhmehd380g2df86pjhrqc84n8nij.apps.googleusercontent.com'}
+          clientId={'635532823003-8gg0pa8k2dvim65817fgsqijf460q4ln.apps.googleusercontent.com'}
+          onSuccess={(response) => {
+            const { tokenId } = response;
+            debugger
+            this.handleSocialLogin({
+              'token': tokenId,
+              'From': 'google'
+            })
+          }}
+          onFailure={(error) => {
+            debugger
+          }}
+        >
+          Login with Google+
+                            </GoogleLogin>
         <div className="container" style={styles.container}>
           <Switch>
             <Route
